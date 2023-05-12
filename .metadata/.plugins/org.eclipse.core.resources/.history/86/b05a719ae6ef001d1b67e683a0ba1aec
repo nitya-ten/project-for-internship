@@ -1,0 +1,2 @@
+INSERT INTO user_table (id, name, regestered_on, role)
+VALUES (1001, "nitya",
