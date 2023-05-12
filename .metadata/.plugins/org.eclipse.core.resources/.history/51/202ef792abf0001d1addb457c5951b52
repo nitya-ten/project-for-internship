@@ -1,0 +1,21 @@
+package com.nitya.rest.propertyservice.service;
+
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+
+import com.nitya.rest.propertyservice.entity.Property;
+
+
+public interface PropertyService {
+	
+	public Property findAllPropertyDetails();
+	
+	public List<Property> findPropertyDetailsByUserId(Integer userId);
+	
+	public void deleteAllPropertiesByUserId(Integer userId);
+	
+	public ResponseEntity<Property> registerProperty(Property user);
+	
+	public void deletePropertyById(Integer propertyId);
+}

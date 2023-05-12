@@ -1,0 +1,54 @@
+package com.nitya.rest.propertyservice.service;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.nitya.rest.propertyservice.entity.Property;
+import com.nitya.rest.propertyservice.exception.PropertyNotFoundException;
+import com.nitya.rest.propertyservice.repository.PropertyRepository;
+
+@Service
+public class PropertyServiceImpl implements PropertyService {
+	
+	@Autowired
+	private PropertyRepository propertyRepo;
+	
+	@Override
+	public List<Property> findAllPropertyDetails() {
+		return propertyRepo.findAll();
+	}
+	
+	@Override
+	public List<Property> findPropertyDetailsByUserId(Integer userId) {
+		Optional<List<Property>> propertyDetails = propertyRepo.findAllByUserId(userId);
+		
+		if(propertyDetails.isEmpty()){
+			throw new PropertyNotFoundException(""+userId);
+		}
+		return propertyDetails.get();
+	}
+	
+	@Override
+	public void deleteAllPropertiesById(Integer userId) {
+		Optional<Property> userDetails = propertyRepo.findByUserId(userId);
+		
+		if(userDetails.isEmpty()){
+			throw new PropertyNotFoundException(""+userId);
+		}
+		propertyRepo.deleteByUserId(userId);
+	}
+	
+	@Override
+	public ResponseEntity<Property> registerProperty(Property property) {
+		Property savedProperty = propertyRepo.save(property);
+		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}")
+				.buildAndExpand(savedProperty.getId()).toUri();
+		return ResponseEntity.created(location).build();
+	}
+}

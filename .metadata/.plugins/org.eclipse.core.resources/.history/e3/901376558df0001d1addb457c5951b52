@@ -1,0 +1,54 @@
+package com.nitya.rest.propertyservice.service;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.nitya.rest.propertyservice.entity.Property;
+import com.nitya.rest.propertyservice.repository.PropertyRepository;
+
+@Service
+public class PropertyServiceImpl implements PropertyService {
+	
+	@Autowired
+	private PropertyRepository userRepo;
+	
+	@Override
+	public List<Property> findAllPropertyDetails() {
+		return userRepo.findAll();
+	}
+	
+	@Override
+	public User findUserDetailsById(Integer id) {
+		Optional<Property> userDetails = userRepo.findById(id);
+		
+		if(userDetails.isEmpty()){
+			throw new PropertyNotFoundException(""+id);
+		}
+		return userDetails.get();
+	}
+	
+	@Override
+	public void deleteUserDetailsById(Integer id) {
+		Optional<Property> userDetails = userRepo.findById(id);
+		
+		if(userDetails.isEmpty()){
+			throw new PropertyNotFoundException(""+id);
+		}
+		wishlistProxy.deleteWishlist(userDetails.get().getId());
+		userRepo.deleteById(id);
+	}
+	
+	@Override
+	public ResponseEntity<Property> registerUser(Property user) {
+		Property savedUser = userRepo.save(user);
+		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}")
+				.buildAndExpand(savedUser.getId()).toUri();
+		return ResponseEntity.created(location).build();
+	}
+}

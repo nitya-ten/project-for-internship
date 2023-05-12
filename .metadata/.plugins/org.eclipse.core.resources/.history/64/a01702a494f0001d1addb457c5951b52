@@ -1,0 +1,5 @@
+package com.nitya.rest.propertyservice.controller;
+
+public class PropertyServiceController {
+
+}

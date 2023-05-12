@@ -1,0 +1,13 @@
+package com.nitya.rest.propertyservice.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.nitya.rest.propertyservice.service.PropertyServiceImpl;
+
+@Controller
+public class PropertyServiceController {
+
+	@Autowired
+	private PropertyServiceImpl propertyServiceImpl;
+}
