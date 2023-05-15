@@ -1,7 +1,6 @@
 package com.nitya.rest.wishlistservice.service;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,10 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.nitya.rest.wishlistservice.entity.User;
 import com.nitya.rest.wishlistservice.entity.Wishlist;
 import com.nitya.rest.wishlistservice.exception.WishlistNotFoundException;
-import com.nitya.rest.wishlistservice.proxy.UsersServiceProxy;
 import com.nitya.rest.wishlistservice.repository.WishlistRepository;
 
 @Service
@@ -22,15 +19,9 @@ public class WishlistServiceImpl implements WishlistService{
 	@Autowired
 	private WishlistRepository wishlistRepo;
 	
-	//@Autowired
-	//private UsersServiceProxy usersServiceProxy;
-	
 	@Override
 	public Wishlist getWishlistById(Integer userId) {
-		//to check if user is present
-		//User userDetails = usersServiceProxy.getUserDetails(userId);
 		
-		//searching by userId
 		Optional<Wishlist> userWishlist = wishlistRepo.findByUserId(userId);
 		
 		if(userWishlist.isEmpty()){
@@ -42,7 +33,6 @@ public class WishlistServiceImpl implements WishlistService{
 
 	@Override
 	public ResponseEntity<Wishlist> addItemToWishlist(Wishlist wishlist) {
-		//User userDetails = usersServiceProxy.getUserDetails(userId);
 		
 		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(wishlist.getUserId());
 		
@@ -63,7 +53,6 @@ public class WishlistServiceImpl implements WishlistService{
 
 	@Override
 	public void deleteItemFromWishlist(Wishlist wishlist) {
-		//User userDetails = usersServiceProxy.getUserDetails(userId);
 		
 		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(wishlist.getUserId());
 		
@@ -77,8 +66,6 @@ public class WishlistServiceImpl implements WishlistService{
 	}
 
 	public void deleteWishlistById(Integer userId) {
-		//User userDetails = usersServiceProxy.getUserDetails(userId);
-		
 		wishlistRepo.deleteByUserId(userId);
 	}
 

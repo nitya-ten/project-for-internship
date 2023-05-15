@@ -26,20 +26,22 @@ public class UsersController {
 	public List<User> getAllUserDetails() {
 		return usersServiceImpl.findAllUserDetails();
 	}
-
-	@PostMapping(path = "/users")
-	public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
-		return usersServiceImpl.registerUser(user);
-	}
-
+	
 	@GetMapping(path = "/users/{id}")
 	public User getUserDetails(@PathVariable Integer id) {
 		return usersServiceImpl.findUserDetailsById(id);
 	}
 
+	@PostMapping(path = "/users")
+	public ResponseEntity<User> registerNewUser(@Valid @RequestBody User user) {
+		return usersServiceImpl.registerUser(user);
+	}
+
 	@DeleteMapping(path = "/users/{id}")
-	public void deleteUserDetails(@PathVariable Integer id) {
+	public void deRegisterUser(@PathVariable Integer id) {
 		usersServiceImpl.deleteUserDetailsById(id);
 	}
+	
+	
 
 }

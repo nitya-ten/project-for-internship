@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Property.java&apos; to &apos;users/src/main/java/com.nitya.rest.users.entity&apos;&#x0D;&#x0A;- Original project: &apos;property-service&apos;&#x0D;&#x0A;- Destination element: &apos;users/src/main/java/com.nitya.rest.users.entity&apos;&#x0D;&#x0A;- Original element: &apos;com.nitya.rest.propertyservice.entity.Property.java&apos;" description="Copy compilation unit" destination="=users/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.nitya.rest.users.entity" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.nitya.rest.propertyservice.entity{Property.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1684129142896" units="1" version="1.0"/>
+</session>
