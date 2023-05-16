@@ -1,0 +1,75 @@
+package com.nitya.rest.wishlistservice.service;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.nitya.rest.wishlistservice.entity.Wishlist;
+import com.nitya.rest.wishlistservice.exception.WishlistNotFoundException;
+import com.nitya.rest.wishlistservice.repository.WishlistRepository;
+
+@Service
+public class WishlistServiceImpl implements WishlistService{
+
+	@Autowired
+	private WishlistRepository wishlistRepo;
+	
+	@Override
+	public List<Integer> getWishlistById(Integer userId) {
+		
+		Optional<Wishlist> userWishlist = wishlistRepo.findByUserId(userId);
+		
+		if(userWishlist.isEmpty()){
+			throw new WishlistNotFoundException(""+userId);
+		}
+		
+		return userWishlist.get().getPropertyIds();
+	}
+
+	@Override
+	public ResponseEntity<List<Integer>> addItemToWishlist(Integer userId, Integer propertyId){
+		
+		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(userId);
+		
+		if(userWishlist.isEmpty()){
+			Wishlist newWishlist = new Wishlist(userId);
+			newWishlist.addPropertyId(propertyId);
+			wishlistRepo.save(newWishlist);
+		}
+		else {
+			List<Integer> properties = userWishlist.get().getPropertyIds();
+			List<Integer> propertyId = wishlist.getPropertyIds();
+			propertyList.add(propertyId.get(0));
+			wishlistRepo.save(userWishlist.get());
+		}
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("")
+				.buildAndExpand().toUri();
+		return ResponseEntity.created(location).build();
+	}
+
+	@Override
+	public void deleteItemFromWishlist(Integer userId, Integer propertyId) {
+		
+		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(userId);
+		
+		if(userWishlist.isEmpty()){
+			throw new WishlistNotFoundException(""+userId);
+		}
+		
+		List<Integer> propertyList = userWishlist.get().getPropertyIds();
+		propertyList.remove(wishlist.getPropertyIds().get(0));
+		wishlistRepo.save(userWishlist.get());
+	}
+
+	public void deleteWishlistById(Integer userId) {
+		wishlistRepo.deleteByUserId(userId);
+	}
+
+}

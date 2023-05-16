@@ -23,7 +23,7 @@ public class PropertyServiceImpl implements PropertyService {
 	public List<Property> findAllPropertyDetails() {
 		List<Property> propertyList = propertyRepo.findAll();
 		if(propertyList.isEmpty()) {
-			throw new PropertyNotFoundException(""+"for any user");
+			throw new PropertyNotFoundException("");
 		}
 		return propertyList;
 	}
@@ -33,7 +33,7 @@ public class PropertyServiceImpl implements PropertyService {
 		Optional<List<Property>> propertyDetails = propertyRepo.findAllByUserId(userId);
 		
 		if(propertyDetails.isEmpty()){
-			throw new PropertyNotFoundException(""+userId);
+			throw new PropertyNotFoundException("for User Id: " + userId);
 		}
 		return propertyDetails.get();
 	}
@@ -43,7 +43,7 @@ public class PropertyServiceImpl implements PropertyService {
 		Optional<List<Property>> propertyDetails = propertyRepo.findAllByUserId(userId);
 		
 		if(propertyDetails.isEmpty()){
-			throw new PropertyNotFoundException(""+userId);
+			throw new PropertyNotFoundException("for User Id: " + userId);
 		}
 		propertyRepo.deleteAllByUserId(userId);
 	}

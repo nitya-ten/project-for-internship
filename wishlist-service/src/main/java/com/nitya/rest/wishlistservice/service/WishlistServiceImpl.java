@@ -1,13 +1,11 @@
 package com.nitya.rest.wishlistservice.service;
 
-import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nitya.rest.wishlistservice.entity.Wishlist;
 import com.nitya.rest.wishlistservice.exception.WishlistNotFoundException;
@@ -20,48 +18,44 @@ public class WishlistServiceImpl implements WishlistService{
 	private WishlistRepository wishlistRepo;
 	
 	@Override
-	public Wishlist getWishlistById(Integer userId) {
+	public List<Integer> getWishlistById(Integer userId) {
 		
 		Optional<Wishlist> userWishlist = wishlistRepo.findByUserId(userId);
+		
+		if(userWishlist.isEmpty()){
+			List<Integer> emptyList = new ArrayList<Integer>();
+			return emptyList;
+		}
+		
+		return userWishlist.get().getPropertyIds();
+	}
+
+	@Override
+	public void addItemToWishlist(Integer userId, Integer propertyId){
+		
+		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(userId);
+		
+		if(userWishlist.isEmpty()){
+			Wishlist newWishlist = new Wishlist(userId);
+			newWishlist.addPropertyId(propertyId);
+			wishlistRepo.save(newWishlist);
+		}
+		else {
+			userWishlist.get().addPropertyId(propertyId);
+			wishlistRepo.save(userWishlist.get());
+		}
+	}
+
+	@Override
+	public void deleteItemFromWishlist(Integer userId, Integer propertyId) {
+		
+		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(userId);
 		
 		if(userWishlist.isEmpty()){
 			throw new WishlistNotFoundException(""+userId);
 		}
 		
-		return userWishlist.get();
-	}
-
-	@Override
-	public ResponseEntity<Wishlist> addItemToWishlist(Wishlist wishlist) {
-		
-		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(wishlist.getUserId());
-		
-		if(userWishlist.isEmpty()){
-			wishlistRepo.save(wishlist);
-		}
-		else {
-			List<Integer> propertyList = userWishlist.get().getPropertyIds();
-			List<Integer> propertyId = wishlist.getPropertyIds();
-			propertyList.add(propertyId.get(0));
-			wishlistRepo.save(userWishlist.get());
-		}
-		
-		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("")
-				.buildAndExpand().toUri();
-		return ResponseEntity.created(location).build();
-	}
-
-	@Override
-	public void deleteItemFromWishlist(Wishlist wishlist) {
-		
-		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(wishlist.getUserId());
-		
-		if(userWishlist.isEmpty()){
-			throw new WishlistNotFoundException(""+wishlist.getUserId());
-		}
-		
-		List<Integer> propertyList = userWishlist.get().getPropertyIds();
-		propertyList.remove(wishlist.getPropertyIds().get(0));
+		userWishlist.get().removePropertyId(propertyId);
 		wishlistRepo.save(userWishlist.get());
 	}
 

@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class PropertyNotFoundException extends RuntimeException {
 	public PropertyNotFoundException(String message) {
-		super("Not found property with id: " + message);
+		super("No property found " + message);
 	}
 }

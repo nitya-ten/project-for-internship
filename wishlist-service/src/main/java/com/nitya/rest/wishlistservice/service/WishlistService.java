@@ -1,16 +1,14 @@
 package com.nitya.rest.wishlistservice.service;
 
-import org.springframework.http.ResponseEntity;
-
-import com.nitya.rest.wishlistservice.entity.Wishlist;
+import java.util.List;
 
 public interface WishlistService {
 	
-	public Wishlist getWishlistById(Integer userId);
+	public List<Integer> getWishlistById(Integer userId);
 	
-	public ResponseEntity<Wishlist> addItemToWishlist(Wishlist wishlist);
+	public void addItemToWishlist(Integer userId, Integer propertyList);
 	
-	public void deleteItemFromWishlist(Wishlist wishlist);
+	public void deleteItemFromWishlist(Integer userId, Integer propertyId);
 	
 	public void deleteWishlistById(Integer userId);
 }
