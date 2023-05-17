@@ -2,7 +2,10 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
     <fullyQualifiedTypeName name="java.util.Optional"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
+    <fullyQualifiedTypeName name="com.nitya.rest.users.entity.Wishlist"/>
+    <fullyQualifiedTypeName name="com.nitya.rest.users.proxy.WishlistServiceProxy"/>
+    <fullyQualifiedTypeName name="org.springframework.data.repository.PagingAndSortingRepository"/>
     <fullyQualifiedTypeName name="com.nitya.rest.users.entity.Property"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

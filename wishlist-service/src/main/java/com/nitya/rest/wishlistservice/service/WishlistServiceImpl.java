@@ -23,8 +23,7 @@ public class WishlistServiceImpl implements WishlistService{
 		Optional<Wishlist> userWishlist = wishlistRepo.findByUserId(userId);
 		
 		if(userWishlist.isEmpty()){
-			List<Integer> emptyList = new ArrayList<Integer>();
-			return emptyList;
+			throw new WishlistNotFoundException(""+userId);
 		}
 		
 		return userWishlist.get().getPropertyIds();

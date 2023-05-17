@@ -1,5 +1,6 @@
 package com.nitya.rest.users.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -15,14 +16,13 @@ public class Wishlist {
 	
 	private Integer userId;
 	
-	private List<Integer> propertyIds;
+	private List<Integer> propertyIds = new ArrayList<Integer>();
 	
 	public Wishlist() {}
 
-	public Wishlist(Integer userId, List<Integer> propertyId) {
+	public Wishlist(Integer userId) {
 		super();
 		this.userId = userId;
-		this.propertyIds = propertyId;
 	}
 	
 	public Integer getUserId() {
@@ -37,8 +37,12 @@ public class Wishlist {
 		return propertyIds;
 	}
 
-	public void setPropertyIds(List<Integer> propertyId) {
-		this.propertyIds = propertyId;
+	public void addPropertyId(Integer propertyId) {
+		this.propertyIds.add(propertyId);
+	}
+	
+	public void removePropertyId(Integer propertyId) {
+		this.propertyIds.remove(propertyId);
 	}
 
 	@Override

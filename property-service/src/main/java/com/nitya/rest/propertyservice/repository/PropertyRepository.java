@@ -16,7 +16,7 @@ public interface PropertyRepository extends JpaRepository<Property, Integer>{
 
 	void deleteByUserId(Integer userId);
 
-	Optional<List<Property>> findAllByUserId(Integer userId);
+	List<Property> findAllByUserId(Integer userId);
 
 	void deleteAllByUserId(Integer userId);
 

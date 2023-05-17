@@ -15,7 +15,7 @@ public interface PropertyService {
 	
 	public void deleteAllPropertiesByUserId(Integer userId);
 	
-	public ResponseEntity<Property> registerProperty(Property user);
+	public ResponseEntity<Property> registerProperty(Integer userId, Property user);
 	
-	public void deletePropertyById(Integer propertyId);
+	public void deletePropertyById(Integer userId, Integer propertyId);
 }

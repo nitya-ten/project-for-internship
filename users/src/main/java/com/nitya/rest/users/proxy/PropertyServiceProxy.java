@@ -30,5 +30,5 @@ public interface PropertyServiceProxy {
 	public void deleteAllPropertiesByUserId(@PathVariable Integer userId);
 	
 	@DeleteMapping(path = "/properties/{userId}/{propertyId}")
-	public void deleteAllPropertiesByUserId(@PathVariable Integer userId, @PathVariable Integer propertyId);
+	public void deleteParticularProperty(@PathVariable Integer userId, @PathVariable Integer propertyId);
 }

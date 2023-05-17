@@ -27,9 +27,9 @@ public class PropertyServiceController {
 		return propertyServiceImpl.findAllPropertyDetails();
 	}
 
-	@PostMapping(path = "/properties")
-	public ResponseEntity<Property> addProperty(@Valid @RequestBody Property property) {
-		return propertyServiceImpl.registerProperty(property);
+	@PostMapping(path = "/properties/{userId}")
+	public ResponseEntity<Property> addProperty(@PathVariable Integer userId, @Valid @RequestBody Property property) {
+		return propertyServiceImpl.registerProperty(userId, property);
 	}
 
 	@GetMapping(path = "/properties/{userId}")
@@ -43,7 +43,7 @@ public class PropertyServiceController {
 	}
 	
 	@DeleteMapping(path = "/properties/{userId}/{propertyId}")
-	public void deleteAllPropertiesByUserId(@PathVariable Integer userId, @PathVariable Integer propertyId) {
-		propertyServiceImpl.deletePropertyById(propertyId);
+	public void deleteParticularProperty(@PathVariable Integer userId, @PathVariable Integer propertyId) {
+		propertyServiceImpl.deletePropertyById(userId, propertyId);
 	}
 }

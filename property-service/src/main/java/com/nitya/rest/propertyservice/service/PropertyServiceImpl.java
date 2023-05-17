@@ -2,7 +2,6 @@ package com.nitya.rest.propertyservice.service;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,41 +14,42 @@ import com.nitya.rest.propertyservice.repository.PropertyRepository;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
-	
+
 	@Autowired
 	private PropertyRepository propertyRepo;
-	
+
 	@Override
 	public List<Property> findAllPropertyDetails() {
 		List<Property> propertyList = propertyRepo.findAll();
-		if(propertyList.isEmpty()) {
+		if (propertyList.isEmpty()) {
 			throw new PropertyNotFoundException("");
 		}
 		return propertyList;
 	}
-	
+
 	@Override
 	public List<Property> findPropertyDetailsByUserId(Integer userId) {
-		Optional<List<Property>> propertyDetails = propertyRepo.findAllByUserId(userId);
-		
-		if(propertyDetails.isEmpty()){
+		List<Property> propertyDetails = propertyRepo.findAllByUserId(userId);
+
+		if (propertyDetails.isEmpty()) {
 			throw new PropertyNotFoundException("for User Id: " + userId);
 		}
-		return propertyDetails.get();
+		return propertyDetails;
 	}
-	
+
 	@Override
 	public void deleteAllPropertiesByUserId(Integer userId) {
-		Optional<List<Property>> propertyDetails = propertyRepo.findAllByUserId(userId);
-		
-		if(propertyDetails.isEmpty()){
+		List<Property> propertyDetails = propertyRepo.findAllByUserId(userId);
+
+		if (propertyDetails.isEmpty()) {
 			throw new PropertyNotFoundException("for User Id: " + userId);
 		}
 		propertyRepo.deleteAllByUserId(userId);
 	}
-	
+
 	@Override
-	public ResponseEntity<Property> registerProperty(Property property) {
+	public ResponseEntity<Property> registerProperty(Integer userId, Property property) {
+		property.setUserId(userId);
 		Property savedProperty = propertyRepo.save(property);
 		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}")
 				.buildAndExpand(savedProperty.getId()).toUri();
@@ -57,7 +57,14 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public void deletePropertyById(Integer propertyId) {
+	public void deletePropertyById(Integer userId, Integer propertyId) {
+		//find if such property exist with propertyId and userId as given
+		List<Property> propertyDetails = propertyRepo.findAllByUserId(userId);
+
+		if (propertyDetails.isEmpty()) {
+			throw new PropertyNotFoundException("for User Id: " + userId);
+		}
+
 		propertyRepo.deleteById(propertyId);
 	}
 }
