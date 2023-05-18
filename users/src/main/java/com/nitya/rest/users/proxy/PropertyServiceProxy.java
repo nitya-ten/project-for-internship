@@ -14,7 +14,8 @@ import com.nitya.rest.users.entity.Property;
 
 import jakarta.validation.Valid;
 
-@FeignClient(name = "property-service", url = "localhost:8083")
+//@FeignClient(name = "property-service", url = "localhost:8083")
+@FeignClient(name = "property-service")
 public interface PropertyServiceProxy {
 	
 	@GetMapping(path = "/properties")
