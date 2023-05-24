@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nitya.rest.users.entity.Property;
-import com.nitya.rest.users.entity.User;
+import com.nitya.rest.users.entity.PropertyData;
+import com.nitya.rest.users.entity.UserData;
 import com.nitya.rest.users.proxy.PropertyServiceProxy;
 import com.nitya.rest.users.proxy.WishlistServiceProxy;
 import com.nitya.rest.users.service.UsersServiceImpl;
@@ -32,18 +32,18 @@ public class UsersController {
 	private PropertyServiceProxy propertyProxy;
 
 	@GetMapping(path = "/users")
-	public List<User> getAllUserDetails() {
+	public List<UserData> getAllUserDetails() {
 		return usersServiceImpl.findAllUserDetails();
 	}
 	
 	@GetMapping(path = "/users/{id}")
-	public User getUserDetails(@PathVariable Integer id) {
+	public UserData getUserDetails(@PathVariable Integer id) {
 		return usersServiceImpl.findUserDetailsById(id);
 	}
 
 	@PostMapping(path = "/users")
-	public ResponseEntity<User> registerNewUser(@Valid @RequestBody User user) {
-		return usersServiceImpl.registerUser(user);
+	public ResponseEntity<?> registerNewUser(@Valid @RequestBody UserData userData) {
+		return usersServiceImpl.registerUser(userData);
 	}
 
 	@DeleteMapping(path = "/users/{id}")
@@ -69,7 +69,7 @@ public class UsersController {
 	
 	//dependency on property-service
 	@GetMapping(path = "/properties")
-	public List<Property> getAllPropertyDetails() {
+	public List<PropertyData> getAllPropertyDetails() {
 		return propertyProxy.getAllPropertyDetails();
 	}
 }

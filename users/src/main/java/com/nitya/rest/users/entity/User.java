@@ -24,7 +24,7 @@ public class User {
 
 	private String role;
 
-	protected User() {
+	public User() {
 
 	}
 

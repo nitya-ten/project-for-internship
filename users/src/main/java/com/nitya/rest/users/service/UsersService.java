@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.nitya.rest.users.entity.User;
+import com.nitya.rest.users.entity.UserData;
 
 
 public interface UsersService {
 	
-	public List<User> findAllUserDetails();
+	public List<UserData> findAllUserDetails();
 	
-	public User findUserDetailsById(Integer id);
+	public UserData findUserDetailsById(Integer id);
 	
 	public void deleteUserDetailsById(Integer id);
 	
-	public ResponseEntity<User> registerUser(User user);
+	public ResponseEntity<?> registerUser(UserData user);
 }

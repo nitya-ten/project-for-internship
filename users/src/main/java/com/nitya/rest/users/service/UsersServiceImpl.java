@@ -1,15 +1,18 @@
 package com.nitya.rest.users.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nitya.rest.users.entity.User;
+import com.nitya.rest.users.entity.UserData;
 import com.nitya.rest.users.exception.UserNotFoundException;
 import com.nitya.rest.users.proxy.WishlistServiceProxy;
 import com.nitya.rest.users.repository.UserRepository;
@@ -24,18 +27,30 @@ public class UsersServiceImpl implements UsersService {
 	private WishlistServiceProxy wishlistProxy;
 	
 	@Override
-	public List<User> findAllUserDetails() {
-		return userRepo.findAll();
+	public List<UserData> findAllUserDetails() {
+		List<User> userList = userRepo.findAll();
+		if(userList.isEmpty()) {
+			throw new UserNotFoundException("Any ID");
+		}
+		List<UserData> userListData = new ArrayList<>();
+		userList.stream().forEach(user -> {
+			UserData userData = new UserData();
+			BeanUtils.copyProperties(user, userData);
+			userListData.add(userData);
+		});
+		return userListData;
 	}
 	
 	@Override
-	public User findUserDetailsById(Integer id) {
+	public UserData findUserDetailsById(Integer id) {
 		Optional<User> userDetails = userRepo.findById(id);
 		
 		if(userDetails.isEmpty()){
 			throw new UserNotFoundException(""+id);
 		}
-		return userDetails.get();
+		UserData userData = new UserData();
+		BeanUtils.copyProperties(userDetails.get(), userData);
+		return userData;
 	}
 	
 	@Override
@@ -50,7 +65,9 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	@Override
-	public ResponseEntity<User> registerUser(User user) {
+	public ResponseEntity<?> registerUser(UserData userData) {
+		User user = new User();
+		BeanUtils.copyProperties(userData, user);
 		User savedUser = userRepo.save(user);
 		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}")
 				.buildAndExpand(savedUser.getId()).toUri();
