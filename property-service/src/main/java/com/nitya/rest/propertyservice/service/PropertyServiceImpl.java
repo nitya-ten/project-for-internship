@@ -75,7 +75,7 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Override
 	public void deletePropertyById(Integer userId, Integer propertyId) {
-		//find if such property exist with propertyId and userId as given
+		// find if such property exist with propertyId and userId as given
 		List<Property> propertyDetails = propertyRepo.findAllByUserId(userId);
 
 		if (propertyDetails.isEmpty()) {

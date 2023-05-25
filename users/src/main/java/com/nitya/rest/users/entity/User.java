@@ -17,7 +17,9 @@ public class User {
 	private Integer id;
 
 	@Size(min = 2, message = "Size of name should be minimum 2")
-	private String name;
+	private String username;
+	
+	private String password;
 
 	@CreationTimestamp
 	private LocalDateTime registeredOn;
@@ -27,33 +29,37 @@ public class User {
 	public User() {
 
 	}
-
-	public User(@Size(min = 2, message = "Size of name should be minimum 2") String name, LocalDateTime registeredOn,
+	
+	public User(@Size(min = 2, message = "Size of name should be minimum 2") String username, String password,
 			String role) {
 		super();
-		this.name = name;
-		this.registeredOn = registeredOn;
+		this.username = username;
+		this.password = password;
 		this.role = role;
 	}
 
 	public Integer getId() {
-		return this.id;
+		return id;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public LocalDateTime getRegisteredOn() {
 		return registeredOn;
-	}
-
-	public void setRegisteredOn(LocalDateTime registeredOn) {
-		this.registeredOn = registeredOn;
 	}
 
 	public String getRole() {
@@ -66,7 +72,10 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", registeredOn=" + registeredOn + ", role=" + role + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", registeredOn=" + registeredOn
+				+ ", role=" + role + "]";
 	}
-
+	
+	
+	
 }

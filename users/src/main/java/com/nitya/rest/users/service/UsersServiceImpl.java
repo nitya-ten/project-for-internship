@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +26,9 @@ public class UsersServiceImpl implements UsersService {
 	
 	@Autowired
 	private WishlistServiceProxy wishlistProxy;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public List<UserData> findAllUserDetails() {
@@ -68,6 +72,8 @@ public class UsersServiceImpl implements UsersService {
 	public ResponseEntity<?> registerUser(UserData userData) {
 		User user = new User();
 		BeanUtils.copyProperties(userData, user);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		System.out.println(user.toString());
 		User savedUser = userRepo.save(user);
 		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}")
 				.buildAndExpand(savedUser.getId()).toUri();

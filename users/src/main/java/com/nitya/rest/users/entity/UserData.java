@@ -2,14 +2,20 @@ package com.nitya.rest.users.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class UserData {
 
 	private Integer id;
 
+	@NotEmpty
 	@Size(min = 2, message = "Size of name should be minimum 2")
-	private String name;
+	private String username;
+	
+	@NotNull
+	private String password;
 
 	private LocalDateTime registeredOn;
 
@@ -18,30 +24,40 @@ public class UserData {
 	public UserData() {
 
 	}
-
-	public UserData(Integer id, @Size(min = 2, message = "Size of name should be minimum 2") String name,
+	
+	public UserData(Integer id, @Size(min = 2, message = "Size of name should be minimum 2") String username, String password,
 			LocalDateTime registeredOn, String role) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.username = username;
+		this.password = password;
 		this.registeredOn = registeredOn;
 		this.role = role;
 	}
 
 	public Integer getId() {
-		return this.id;
+		return id;
 	}
+	
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public LocalDateTime getRegisteredOn() {
@@ -62,7 +78,9 @@ public class UserData {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", registeredOn=" + registeredOn + ", role=" + role + "]";
+		return "UserData [id=" + id + ", username=" + username + ", password=" + password + ", registeredOn="
+				+ registeredOn + ", role=" + role + "]";
 	}
-
+	
+	
 }

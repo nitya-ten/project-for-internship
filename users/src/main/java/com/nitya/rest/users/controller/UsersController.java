@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,45 +32,54 @@ public class UsersController {
 	@Autowired
 	private PropertyServiceProxy propertyProxy;
 
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping(path = "/users")
 	public List<UserData> getAllUserDetails() {
 		return usersServiceImpl.findAllUserDetails();
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping(path = "/users/{id}")
 	public UserData getUserDetails(@PathVariable Integer id) {
 		return usersServiceImpl.findUserDetailsById(id);
 	}
 
-	@PostMapping(path = "/users")
+	
+	@PostMapping(path = "/register")
 	public ResponseEntity<?> registerNewUser(@Valid @RequestBody UserData userData) {
+		System.out.println(userData.toString());
 		return usersServiceImpl.registerUser(userData);
 	}
 
 	//dependency on wishlist-service indirectly
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@DeleteMapping(path = "/users/{id}")
 	public void deRegisterUser(@PathVariable Integer id) {
 		usersServiceImpl.deleteUserDetailsById(id);
 	}
 	
 	//dependency on wishlist-service directly
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping(path = "/users/{id}/wishlist")
 	public List<Integer> getWishlist(@PathVariable Integer id) {
 		return wishlistProxy.getUserWishlist(id);
 	}
 	
 	@PostMapping(path = "users/{id}/wishlist")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public void addItemsToWishlist(@PathVariable Integer id, @RequestBody Integer propertyId) {
 		wishlistProxy.addToWishlist(id, propertyId);
 	}
 	
 	@DeleteMapping(path = "users/{id}/wishlist")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public void deleteItemsFromWishlist(@PathVariable Integer id, @RequestBody Integer propertyId) {
 		wishlistProxy.deleteFromWishlist(id, propertyId);
 	}
 	
 	//dependency on property-service
 	@GetMapping(path = "/properties")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public List<PropertyData> getAllPropertyDetails() {
 		return propertyProxy.getAllPropertyDetails();
 	}
