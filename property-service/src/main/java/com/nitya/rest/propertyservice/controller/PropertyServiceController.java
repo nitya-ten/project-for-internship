@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nitya.rest.propertyservice.entity.Property;
+import com.nitya.rest.propertyservice.entity.PropertyData;
 import com.nitya.rest.propertyservice.service.PropertyServiceImpl;
 
 import jakarta.validation.Valid;
@@ -23,17 +23,17 @@ public class PropertyServiceController {
 	private PropertyServiceImpl propertyServiceImpl;
 	
 	@GetMapping(path = "/properties")
-	public List<Property> getAllPropertyDetails() {
+	public List<PropertyData> getAllPropertyDetails() {
 		return propertyServiceImpl.findAllPropertyDetails();
 	}
 
 	@PostMapping(path = "/properties/{userId}")
-	public ResponseEntity<Property> addProperty(@PathVariable Integer userId, @Valid @RequestBody Property property) {
+	public ResponseEntity<PropertyData> addProperty(@PathVariable Integer userId, @Valid @RequestBody PropertyData property) {
 		return propertyServiceImpl.registerProperty(userId, property);
 	}
 
 	@GetMapping(path = "/properties/{userId}")
-	public List<Property> getPropertiesByUserId(@PathVariable Integer userId) {
+	public List<PropertyData> getPropertiesByUserId(@PathVariable Integer userId) {
 		return propertyServiceImpl.findPropertyDetailsByUserId(userId);
 	}
 

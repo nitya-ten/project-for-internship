@@ -46,12 +46,13 @@ public class UsersController {
 		return usersServiceImpl.registerUser(userData);
 	}
 
+	//dependency on wishlist-service indirectly
 	@DeleteMapping(path = "/users/{id}")
 	public void deRegisterUser(@PathVariable Integer id) {
 		usersServiceImpl.deleteUserDetailsById(id);
 	}
 	
-	//dependency on wishlist-service
+	//dependency on wishlist-service directly
 	@GetMapping(path = "/users/{id}/wishlist")
 	public List<Integer> getWishlist(@PathVariable Integer id) {
 		return wishlistProxy.getUserWishlist(id);

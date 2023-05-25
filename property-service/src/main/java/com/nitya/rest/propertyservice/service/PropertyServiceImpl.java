@@ -1,14 +1,17 @@
 package com.nitya.rest.propertyservice.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nitya.rest.propertyservice.entity.Property;
+import com.nitya.rest.propertyservice.entity.PropertyData;
 import com.nitya.rest.propertyservice.exception.PropertyNotFoundException;
 import com.nitya.rest.propertyservice.repository.PropertyRepository;
 
@@ -19,22 +22,34 @@ public class PropertyServiceImpl implements PropertyService {
 	private PropertyRepository propertyRepo;
 
 	@Override
-	public List<Property> findAllPropertyDetails() {
+	public List<PropertyData> findAllPropertyDetails() {
 		List<Property> propertyList = propertyRepo.findAll();
 		if (propertyList.isEmpty()) {
 			throw new PropertyNotFoundException("");
 		}
-		return propertyList;
+		List<PropertyData> propertyListData = new ArrayList<>();
+		propertyList.stream().forEach(property -> {
+			PropertyData propertyData = new PropertyData();
+			BeanUtils.copyProperties(property, propertyData);
+			propertyListData.add(propertyData);
+		});
+		return propertyListData;
 	}
 
 	@Override
-	public List<Property> findPropertyDetailsByUserId(Integer userId) {
-		List<Property> propertyDetails = propertyRepo.findAllByUserId(userId);
+	public List<PropertyData> findPropertyDetailsByUserId(Integer userId) {
+		List<Property> propertyDetailsList = propertyRepo.findAllByUserId(userId);
 
-		if (propertyDetails.isEmpty()) {
+		if (propertyDetailsList.isEmpty()) {
 			throw new PropertyNotFoundException("for User Id: " + userId);
 		}
-		return propertyDetails;
+		List<PropertyData> propertyListData = new ArrayList<>();
+		propertyDetailsList.stream().forEach(property -> {
+			PropertyData propertyData = new PropertyData();
+			BeanUtils.copyProperties(property, propertyData);
+			propertyListData.add(propertyData);
+		});
+		return propertyListData;
 	}
 
 	@Override
@@ -48,8 +63,10 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public ResponseEntity<Property> registerProperty(Integer userId, Property property) {
-		property.setUserId(userId);
+	public ResponseEntity<PropertyData> registerProperty(Integer userId, PropertyData propertyData) {
+		propertyData.setUserId(userId);
+		Property property = new Property();
+		BeanUtils.copyProperties(propertyData, property);
 		Property savedProperty = propertyRepo.save(property);
 		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}")
 				.buildAndExpand(savedProperty.getId()).toUri();

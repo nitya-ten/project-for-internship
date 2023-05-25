@@ -19,12 +19,13 @@ public class Wishlist {
 	private List<Integer> propertyIds = new ArrayList<Integer>();
 	
 	public Wishlist() {}
-
-	public Wishlist(Integer userId) {
+	
+	public Wishlist(Integer userId, List<Integer> propertyIds) {
 		super();
 		this.userId = userId;
+		this.propertyIds = propertyIds;
 	}
-	
+
 	public Integer getUserId() {
 		return userId;
 	}

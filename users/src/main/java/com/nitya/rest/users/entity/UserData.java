@@ -19,9 +19,10 @@ public class UserData {
 
 	}
 
-	public UserData(@Size(min = 2, message = "Size of name should be minimum 2") String name, LocalDateTime registeredOn,
-			String role) {
+	public UserData(Integer id, @Size(min = 2, message = "Size of name should be minimum 2") String name,
+			LocalDateTime registeredOn, String role) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.registeredOn = registeredOn;
 		this.role = role;
@@ -29,6 +30,10 @@ public class UserData {
 
 	public Integer getId() {
 		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {

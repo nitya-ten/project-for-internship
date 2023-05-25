@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.nitya.rest.propertyservice.entity.Property;
+import com.nitya.rest.propertyservice.entity.PropertyData;
 
 
 public interface PropertyService {
 	
-	public List<Property> findAllPropertyDetails();
+	public List<PropertyData> findAllPropertyDetails();
 	
-	public List<Property> findPropertyDetailsByUserId(Integer userId);
+	public List<PropertyData> findPropertyDetailsByUserId(Integer userId);
 	
 	public void deleteAllPropertiesByUserId(Integer userId);
 	
-	public ResponseEntity<Property> registerProperty(Integer userId, Property user);
+	public ResponseEntity<PropertyData> registerProperty(Integer userId, PropertyData propertyData);
 	
 	public void deletePropertyById(Integer userId, Integer propertyId);
 }

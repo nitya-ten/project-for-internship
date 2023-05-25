@@ -35,8 +35,9 @@ public class WishlistServiceImpl implements WishlistService{
 		Optional<Wishlist> userWishlist= wishlistRepo.findByUserId(userId);
 		
 		if(userWishlist.isEmpty()){
-			Wishlist newWishlist = new Wishlist(userId);
-			newWishlist.addPropertyId(propertyId);
+			List<Integer> propertyIds = new ArrayList<>();
+			propertyIds.add(propertyId);
+			Wishlist newWishlist = new Wishlist(userId, propertyIds);
 			wishlistRepo.save(newWishlist);
 		}
 		else {
