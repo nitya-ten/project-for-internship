@@ -21,15 +21,15 @@ public interface PropertyServiceProxy {
 	@GetMapping(path = "/properties")
 	public List<PropertyData> getAllPropertyDetails();
 
-	@PostMapping(path = "/properties")
+	@PostMapping(path = "/properties/{provider}")
 	public ResponseEntity<PropertyData> addProperty(@Valid @RequestBody PropertyData property);
 
-	@GetMapping(path = "/properties/{userId}")
-	public List<PropertyData> getPropertiesByUserId(@PathVariable Integer userId);
+	@GetMapping(path = "/properties/{provider}")
+	public List<PropertyData> getPropertiesByProvider(@PathVariable String provider);
 
-	@DeleteMapping(path = "/properties/{userId}")
-	public void deleteAllPropertiesByUserId(@PathVariable Integer userId);
+	@DeleteMapping(path = "/properties/all/{provider}")
+	public void deleteAllPropertiesByProvider(@PathVariable String provider);
 	
-	@DeleteMapping(path = "/properties/{userId}/{propertyId}")
-	public void deleteParticularProperty(@PathVariable Integer userId, @PathVariable Integer propertyId);
+	@DeleteMapping(path = "/properties/{id}")
+	public void deleteParticularProperty(@PathVariable Integer id);
 }

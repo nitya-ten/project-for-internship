@@ -27,23 +27,23 @@ public class PropertyServiceController {
 		return propertyServiceImpl.findAllPropertyDetails();
 	}
 
-	@PostMapping(path = "/properties/{userId}")
-	public ResponseEntity<PropertyData> addProperty(@PathVariable Integer userId, @Valid @RequestBody PropertyData property) {
-		return propertyServiceImpl.registerProperty(userId, property);
+	@PostMapping(path = "/properties/{provider}")
+	public ResponseEntity<PropertyData> addProperty(@PathVariable String provider, @Valid @RequestBody PropertyData property) {
+		return propertyServiceImpl.registerProperty(provider, property);
 	}
 
-	@GetMapping(path = "/properties/{userId}")
-	public List<PropertyData> getPropertiesByUserId(@PathVariable Integer userId) {
-		return propertyServiceImpl.findPropertyDetailsByUserId(userId);
+	@GetMapping(path = "/properties/{provider}")
+	public List<PropertyData> getPropertiesByProvider(@PathVariable String provider) {
+		return propertyServiceImpl.findPropertyDetailsByProvider(provider);
 	}
 
-	@DeleteMapping(path = "/properties/{userId}")
-	public void deleteAllPropertiesByUserId(@PathVariable Integer userId) {
-		propertyServiceImpl.deleteAllPropertiesByUserId(userId);
+	@DeleteMapping(path = "/properties/all/{provider}")
+	public void deleteAllPropertiesByProvider(@PathVariable String provider) {
+		propertyServiceImpl.deleteAllPropertiesByProvider(provider);
 	}
 	
-	@DeleteMapping(path = "/properties/{userId}/{propertyId}")
-	public void deleteParticularProperty(@PathVariable Integer userId, @PathVariable Integer propertyId) {
-		propertyServiceImpl.deletePropertyById(userId, propertyId);
+	@DeleteMapping(path = "/properties/{id}")
+	public void deleteParticularProperty(@PathVariable Integer id) {
+		propertyServiceImpl.deletePropertyById(id);
 	}
 }

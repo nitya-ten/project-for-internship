@@ -47,7 +47,6 @@ public class UsersController {
 	
 	@PostMapping(path = "/register")
 	public ResponseEntity<?> registerNewUser(@Valid @RequestBody UserData userData) {
-		System.out.println(userData.toString());
 		return usersServiceImpl.registerUser(userData);
 	}
 

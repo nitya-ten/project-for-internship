@@ -23,7 +23,7 @@ public class WishlistController {
 		return wishlistServiceimpl.getWishlistById(userId);
 	}
 	
-	@DeleteMapping(path = "/wishlist/{userId}/all")
+	@DeleteMapping(path = "/wishlist/all/{userId}")
 	public void deleteWishlist(@PathVariable Integer userId) {
 		wishlistServiceimpl.deleteWishlistById(userId);
 	}

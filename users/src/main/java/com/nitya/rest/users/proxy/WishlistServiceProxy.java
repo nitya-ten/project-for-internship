@@ -16,7 +16,7 @@ public interface WishlistServiceProxy {
 	@GetMapping(path = "/wishlist/{userId}")
 	public List<Integer> getUserWishlist(@PathVariable Integer userId);
 	
-	@DeleteMapping(path = "/wishlist/{userId}/all")
+	@DeleteMapping(path = "/wishlist/all/{userId}")
 	public void deleteWishlist(@PathVariable Integer userId);
 	
 	@DeleteMapping(path = "/wishlist/{userId}")

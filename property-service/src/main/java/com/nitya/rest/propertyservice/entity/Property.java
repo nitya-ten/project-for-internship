@@ -14,18 +14,18 @@ public class Property {
 	private String title;
 	private String address;
 	private String description;
-	private Integer userId;
+	private String provider;
 	
 	public Property() {
 		
 	}
 	
-	public Property(String title, String address, String description, Integer userId) {
+	public Property(String title, String address, String description, String provider) {
 		super();
 		this.title = title;
 		this.address = address;
 		this.description = description;
-		this.userId = userId;
+		this.provider= provider;
 	}
 
 	public Integer getId() {
@@ -60,19 +60,18 @@ public class Property {
 		this.description = description;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public String getProvider() {
+		return provider;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
 
 	@Override
 	public String toString() {
 		return "Property [id=" + id + ", title=" + title + ", address=" + address + ", description=" + description
-				+ ", userId=" + userId + "]";
+				+ ", provider=" + provider + "]";
 	}
-	
-	
+
 }

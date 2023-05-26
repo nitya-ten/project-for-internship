@@ -3,6 +3,7 @@ package com.nitya.rest.propertyservice.service;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,11 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public List<PropertyData> findPropertyDetailsByUserId(Integer userId) {
-		List<Property> propertyDetailsList = propertyRepo.findAllByUserId(userId);
+	public List<PropertyData> findPropertyDetailsByProvider(String provider) {
+		List<Property> propertyDetailsList = propertyRepo.findAllByProvider(provider);
 
 		if (propertyDetailsList.isEmpty()) {
-			throw new PropertyNotFoundException("for User Id: " + userId);
+			throw new PropertyNotFoundException("for provider: " + provider);
 		}
 		List<PropertyData> propertyListData = new ArrayList<>();
 		propertyDetailsList.stream().forEach(property -> {
@@ -53,20 +54,20 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public void deleteAllPropertiesByUserId(Integer userId) {
-		List<Property> propertyDetails = propertyRepo.findAllByUserId(userId);
+	public void deleteAllPropertiesByProvider(String provider) {
+		List<Property> propertyDetails = propertyRepo.findAllByProvider(provider);
 
 		if (propertyDetails.isEmpty()) {
-			throw new PropertyNotFoundException("for User Id: " + userId);
+			throw new PropertyNotFoundException("for provider: " + provider);
 		}
-		propertyRepo.deleteAllByUserId(userId);
+		propertyRepo.deleteAllByProvider(provider);
 	}
 
 	@Override
-	public ResponseEntity<PropertyData> registerProperty(Integer userId, PropertyData propertyData) {
-		propertyData.setUserId(userId);
+	public ResponseEntity<PropertyData> registerProperty(String provider, PropertyData propertyData) {
 		Property property = new Property();
 		BeanUtils.copyProperties(propertyData, property);
+		property.setProvider(provider);
 		Property savedProperty = propertyRepo.save(property);
 		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}")
 				.buildAndExpand(savedProperty.getId()).toUri();
@@ -74,14 +75,13 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
-	public void deletePropertyById(Integer userId, Integer propertyId) {
-		// find if such property exist with propertyId and userId as given
-		List<Property> propertyDetails = propertyRepo.findAllByUserId(userId);
+	public void deletePropertyById(Integer id) {
+		Optional<Property> propertyDetails = propertyRepo.findById(id);
 
 		if (propertyDetails.isEmpty()) {
-			throw new PropertyNotFoundException("for User Id: " + userId);
+			throw new PropertyNotFoundException("for Id: " + id);
 		}
 
-		propertyRepo.deleteById(propertyId);
+		propertyRepo.deleteById(id);
 	}
 }
