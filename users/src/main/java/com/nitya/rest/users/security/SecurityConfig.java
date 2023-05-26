@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/register").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/users/**")
+                .authorizeHttpRequests().requestMatchers("/users/**","/properties/**")
                 .authenticated().and().httpBasic().and().build();
     }
 

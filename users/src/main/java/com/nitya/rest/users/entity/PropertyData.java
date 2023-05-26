@@ -3,22 +3,22 @@ package com.nitya.rest.users.entity;
 public class PropertyData {
 
 	private Integer id;
-
 	private String title;
 	private String address;
 	private String description;
-	private Integer userId;
+	private String provider;
 
 	public PropertyData() {
 
 	}
 
-	public PropertyData(String title, String address, String description, Integer userId) {
+	public PropertyData(Integer id, String title, String address, String description, String provider) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.address = address;
 		this.description = description;
-		this.userId = userId;
+		this.provider = provider;
 	}
 
 	public Integer getId() {
@@ -53,18 +53,18 @@ public class PropertyData {
 		this.description = description;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public String getProvider() {
+		return provider;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
 
 	@Override
 	public String toString() {
-		return "Property [id=" + id + ", title=" + title + ", address=" + address + ", description=" + description
-				+ ", userId=" + userId + "]";
+		return "PropertyData [id=" + id + ", title=" + title + ", address=" + address + ", description=" + description
+				+ ", provider=" + provider + "]";
 	}
 
 }

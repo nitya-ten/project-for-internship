@@ -38,7 +38,7 @@ public class UsersController {
 		return usersServiceImpl.findAllUserDetails();
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(path = "/users/{id}")
 	public UserData getUserDetails(@PathVariable Integer id) {
 		return usersServiceImpl.findUserDetailsById(id);
@@ -51,7 +51,7 @@ public class UsersController {
 	}
 
 	//dependency on wishlist-service indirectly
-	@PreAuthorize("hasAuthority('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@DeleteMapping(path = "/users/{id}")
 	public void deRegisterUser(@PathVariable Integer id) {
 		usersServiceImpl.deleteUserDetailsById(id);
@@ -77,9 +77,29 @@ public class UsersController {
 	}
 	
 	//dependency on property-service
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(path = "/properties")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public List<PropertyData> getAllPropertyDetails() {
 		return propertyProxy.getAllPropertyDetails();
 	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@GetMapping(path = "/properties/{provider}")
+	public List<PropertyData> getAllPropertyDetailsByProvider(@PathVariable String provider) {
+		return propertyProxy.getPropertiesByProvider(provider);
+	}
+	
+	@PostMapping(path = "/properties/{provider}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	public ResponseEntity<PropertyData> addPropertyDetails(@PathVariable String provider, @Valid @RequestBody PropertyData property) {
+		return propertyProxy.addProperty(provider, property);
+	}
+	
+	@DeleteMapping(path = "/properties/{provider}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	public void deteleAllPropertyDetailsByProvider(@PathVariable String provider) {
+		propertyProxy.deleteAllPropertiesByProvider(provider);
+	}
+
+
 }
